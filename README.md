@@ -1,0 +1,1 @@
+# uci-go-spec
