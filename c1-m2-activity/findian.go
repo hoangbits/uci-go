@@ -22,7 +22,9 @@ func main() {
 }
 
 func findian(s string) bool {
-	if (strings.HasPrefix(s, "i") || strings.HasPrefix(s, "I")) && strings.ContainsAny(s, "aA") && strings.ContainsAny(string(s[len(s)-1]), "n") {
+	if (strings.HasPrefix(s, "i") || strings.HasPrefix(s, "I")) &&
+		strings.ContainsAny(s, "aA") &&
+		strings.HasSuffix(s, "n") || strings.HasSuffix(s, "N") {
 		return true
 	}
 	return false
