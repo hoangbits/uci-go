@@ -59,8 +59,9 @@ func main() {
 		text := scanner.Text()
 		for pos, char := range []byte(text) {
 			if char == ' ' {
-				tempName := Name{string(text[:pos]), string(text[pos+1:])}
-				names = append(names, tempName)
+				var tempName = &Name{}
+				tempName.InitMe(string(text[:pos]), string(text[pos+1:]))
+				names = append(names, *tempName)
 			}
 		}
 	}
