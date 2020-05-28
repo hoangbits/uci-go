@@ -44,29 +44,20 @@ func (n *Name) InitMe(fname, lname string) {
 */
 
 func main() {
-	// var fileName string
-	// fmt.Println("Enter name of the file:")
-	// fmt.Scan(&fileName)
-
-	names := readUsingOs("names.txt")
-	fmt.Printf("--------")
-	fmt.Printf("names value: %v\n", names)
-	// fmt.Printf("names value 12: %v\n", names[12])
-	// fmt.Printf("length: %d,capacity: %d \n", len(names), cap(names))
-}
-
-func readUsingBuf(fileName string) []Name {
+	var fileName string
+	fmt.Println("Enter name of the file:")
+	fmt.Scan(&fileName)
 	file, err := os.Open(fileName)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
+	names := readUsingOs(file)
+	fmt.Printf("Slice value: %v\n", names)
+}
 
+func readUsingBuf(file *os.File) []Name {
 	names := make([]Name, 0, 5)
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		text := scanner.Text()
@@ -84,24 +75,15 @@ func readUsingBuf(fileName string) []Name {
 	return names
 }
 
-func readUsingOs(fileName string) []Name {
-	file, err := os.Open(fileName)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer file.Close()
+func readUsingOs(file *os.File) []Name {
 	names := make([]Name, 0, 20)
-
 	var scanRange int = 4
 	var readOffset int64 = 0
 	var foundNewLine bool = false
 	var meetEOF bool = false
-
 	text := make([]byte, scanRange)
 	count, err := file.Read(text)
-	var cycle int = 0
 	for count != 0 {
-		cycle++
 		// fmt.Printf("~~~~~~~~readOffset: %v~~~~scanRange: %v \n", readOffset, scanRange)
 		// fmt.Printf("text before check newline and whitespace:%v-with len:%v\n", string(text), len(text))
 		foundNewLine = false
@@ -113,18 +95,18 @@ func readUsingOs(fileName string) []Name {
 				// fmt.Printf("found '\\n' readOffset %v add pos %v in text have '\\n'\n", readOffset, pos)
 				line := text[:pos]
 				if meetEOF {
-					fmt.Printf("Count %v\n", count)
+					// fmt.Printf("Count %v\n", count)
 					line = text[:count]
 					readOffset += int64(count)
 				} else {
 					readOffset += int64(pos)
 				}
-				fmt.Printf("found '\\n' line: %v and pos: %v\n", string(line), pos)
+				// fmt.Printf("found '\\n' line: %v and pos: %v\n", string(line), pos)
 				for pos, char := range line {
 					if char == ' ' {
 						tempName := &Name{}
-						fmt.Printf("ADDING fname %v \n", string(line[:pos]))
-						fmt.Printf("ADDING lname %v \n", string(line[pos+1:]))
+						// fmt.Printf("ADDING fname %v \n", string(line[:pos]))
+						// fmt.Printf("ADDING lname %v \n", string(line[pos+1:]))
 						tempName.InitMe(string(line[:pos]), string(line[pos+1:]))
 						names = append(names, *tempName)
 						// only check first new line
@@ -134,7 +116,7 @@ func readUsingOs(fileName string) []Name {
 				break
 			}
 		}
-		fmt.Println("ReadAtReadAtReadAtReadAtReadAtReadAt")
+		// fmt.Println("ReadAtReadAtReadAtReadAtReadAtReadAt")
 		if !foundNewLine {
 			scanRange *= 2
 			// fmt.Printf("NF scanRange %v count: %v readOffset %v\n", scanRange, count, readOffset)
