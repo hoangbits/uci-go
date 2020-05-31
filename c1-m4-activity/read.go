@@ -37,7 +37,7 @@ func (n *Name) InitMe(fname, lname string) {
 }
 
 /*
-  successively read each line
+  successively read each line (which contains pair of first and last name)
   create a struct
   add each struct to slice
   iterate and print slice result

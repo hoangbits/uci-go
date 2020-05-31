@@ -5,6 +5,13 @@ import (
 	"strings"
 )
 
+/*
+input a string and check
+i character at first
+n at last
+a in between
+*/
+
 func main() {
 	var findString string
 	fmt.Printf("Please input a string: ")
