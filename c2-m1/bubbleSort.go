@@ -47,6 +47,10 @@ func Swap(pos *int, nextPos *int) {
 func BubbleSort(sli []int) []int {
 	for i := range sli[:len(sli)-1] {
 		for j := range sli[:len(sli)-1-i] {
+			if i == 2 {
+				fmt.Printf("j %v\n", j)
+				fmt.Printf("len %v\n", len(sli))
+			}
 			if sli[j] > sli[j+1] {
 				Swap(&sli[j], &sli[j+1])
 			}
