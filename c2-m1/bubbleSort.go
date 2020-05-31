@@ -45,7 +45,7 @@ func Swap(pos *int, nextPos *int) {
 // BubbleSort implements sorting algorithm over a slice of
 // integer
 func BubbleSort(sli []int) []int {
-	for i := range sli {
+	for i := range sli[:len(sli)-1] {
 		for j := range sli[:len(sli)-1-i] {
 			if sli[j] > sli[j+1] {
 				Swap(&sli[j], &sli[j+1])
