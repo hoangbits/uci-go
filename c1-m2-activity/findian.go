@@ -15,7 +15,7 @@ a in between
 func main() {
 	for {
 		var findString string
-		fmt.Printf("Please input a string: ")
+		fmt.Printf("Please input a string(input ':q' to quit): ")
 		num, err := fmt.Scan(&findString)
 		if err != nil {
 			fmt.Printf(err.Error() + string(num))
@@ -24,6 +24,10 @@ func main() {
 		if findian(findString) {
 			fmt.Printf("Found!\n")
 		} else {
+			if findString == ":q" {
+				fmt.Printf("Bye!\n")
+				break
+			}
 			fmt.Printf("Not Found!\n")
 		}
 	}
