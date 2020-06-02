@@ -13,17 +13,19 @@ a in between
 */
 
 func main() {
-	var findString string
-	fmt.Printf("Please input a string: ")
-	num, err := fmt.Scan(&findString)
-	if err != nil {
-		fmt.Printf(err.Error() + string(num))
-	}
+	for {
+		var findString string
+		fmt.Printf("Please input a string: ")
+		num, err := fmt.Scan(&findString)
+		if err != nil {
+			fmt.Printf(err.Error() + string(num))
+		}
 
-	if findian(findString) {
-		fmt.Printf("Found!\n")
-	} else {
-		fmt.Printf("Not Found!\n")
+		if findian(findString) {
+			fmt.Printf("Found!\n")
+		} else {
+			fmt.Printf("Not Found!\n")
+		}
 	}
 
 }
