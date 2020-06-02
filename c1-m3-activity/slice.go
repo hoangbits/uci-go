@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	sli := make([]int, 0, 3)
+	var sli []int
 	for {
 		var inputValue rune
 		fmt.Println("Please enter an integer: ")
