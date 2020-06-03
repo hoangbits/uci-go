@@ -21,15 +21,16 @@ func main() {
 	addressBook := make(AddressBook)
 	fmt.Printf("Please enter name: \n")
 	fmt.Scan(&name)
+	addressBook["name"] = name
 	fmt.Printf("Please enter address: \n")
 	fmt.Scan(&address)
-	addressBook[name] = address
+	addressBook["address"] = address
 	barr, err := json.Marshal(addressBook)
 	if err != nil {
 		fmt.Printf("Can't create json" + err.Error())
 	}
 	fmt.Println("-----")
-	fmt.Printf("Original Object: %v\n", addressBook)
+	fmt.Println("Original Object: \n", addressBook)
 	fmt.Printf("Json Object: %v\n", barr)
 
 	// unmarshallAddressBook := make(AddressBook)
