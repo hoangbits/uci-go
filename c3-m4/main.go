@@ -19,7 +19,7 @@ type Philo struct {
 	leftCS, rightCS *ChopS
 }
 
-func (p Philo) eat(semanphore chan int) {
+func (p Philo) eat(semanphore chan int, wg *sync.WaitGroup) {
 	// 2.Each philosopher should eat only 3 times (not in an infinite loop as we did in lecture)
 	for i := 0; i < 3; i++ {
 		p.leftCS.Lock()
@@ -30,8 +30,9 @@ func (p Philo) eat(semanphore chan int) {
 		p.rightCS.Unlock()
 		// 8.When a philosopher finishes eating
 		fmt.Println("finishing eating ", p.name)
-		<-semanphore // removes an int from semanphore, allowing another to proceed
 	}
+	<-semanphore // removes an int from semanphore, allowing another to proceed
+	wg.Done()
 }
 
 // MaxConcurrency Maximum number of gorountine run concurrency
@@ -54,15 +55,15 @@ func main() {
 		philos[i] = &Philo{i + 1, CSticks[(i+1)%5], CSticks[i]}
 	}
 	semanphore := make(chan int, MaxConcurrency)
-	for {
-
-		for i := 0; i < 5; i++ {
-			// 5.The host allows no more than 2 philosophers to eat concurrently.
-			semanphore <- 1 // will block if there is MaxConccurrency in semanphore
-			// 4.In order to eat, a philosopher must get permission from a host which executes in its own goroutine.
-			go philos[i].eat(semanphore)
-		}
+	var wg sync.WaitGroup
+	wg.Add(5)
+	for i := 0; i < 5; i++ {
+		// 5.The host allows no more than 2 philosophers to eat concurrently.
+		semanphore <- 1 // will block if there is MaxConccurrency in semanphore
+		// 4.In order to eat, a philosopher must get permission from a host which executes in its own goroutine.
+		go philos[i].eat(semanphore, &wg)
 	}
+	wg.Wait()
 }
 
 // RandBool This function returns a random boolean value based on the current time
